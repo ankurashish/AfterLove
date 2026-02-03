@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <main className="container">
-      <h1>ScarScore</h1>
+      <h1>AfterLove</h1>
       <p className="subtitle">18+ • Honest • No judgment</p>
 
       <div className="questions">
