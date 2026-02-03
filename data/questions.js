@@ -1,5 +1,5 @@
 const questions = [
-  // 🍺 Alcohol, Substances & Risk (1–15)
+  
   "Have you ever consumed alcohol?",
   "Have you ever gotten drunk?",
   "Have you ever blacked out from drinking?",
@@ -16,7 +16,7 @@ const questions = [
   "Have you ever felt out of control due to substances?",
   "Have you ever questioned your relationship with alcohol?",
 
-  // ❤️ Attraction & Preferred Sex Experiences (16–30)
+  
   "Have you ever felt strong attraction toward someone of your preferred sex?",
   "Have you ever fantasized about someone you couldn’t have?",
   "Have you ever pursued someone purely out of attraction?",
@@ -33,7 +33,7 @@ const questions = [
   "Have you ever felt attraction override logic?",
   "Have you ever crossed boundaries because of desire?",
 
-  // 🔞 Sexual & Physical Intimacy (31–50)
+
   "Have you ever engaged in sexual activity?",
   "Have you ever had sex before you were emotionally ready?",
   "Have you ever had casual sex?",
@@ -50,7 +50,7 @@ const questions = [
   "Have you ever pretended to enjoy intimacy?",
   "Have you ever questioned what intimacy means to you?",
 
-  // 💔 Relationships, Attachment & Emotional Risk (51–75)
+  
   "Have you ever been in love?",
   "Have you ever had your heart broken?",
   "Have you ever loved someone who didn’t love you back?",
@@ -77,7 +77,7 @@ const questions = [
   "Have you ever been afraid to express your needs?",
   "Have you ever felt emotionally unsafe with someone?",
 
-  // 🌒 Growth, Boundaries & Self-Awareness (76–100)
+  
   "Have you ever realized love alone isn’t enough?",
   "Have you ever learned boundaries the hard way?",
   "Have you ever chosen solitude over chaos?",
