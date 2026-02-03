@@ -38,36 +38,47 @@ export default function ResultPage() {
   };
 
   const shareScreenshot = async () => {
-    if (!resultRef.current) return;
+  if (!resultRef.current) return;
 
-    const canvas = await html2canvas(resultRef.current, {
-      backgroundColor: "#0f0f0f",
-      scale: 2
+  const canvas = await html2canvas(resultRef.current, {
+    backgroundColor: "#0f0f0f",
+    scale: 2
+  });
+
+  canvas.toBlob(async (blob) => {
+    if (!blob) return;
+
+    // Try clipboard first (Chrome/Edge)
+    try {
+      const item = new ClipboardItem({ "image/png": blob });
+      await navigator.clipboard.write([item]);
+      alert("Screenshot copied! Paste it anywhere.");
+      return;
+    } catch (e) {
+      // fallback below
+    }
+
+    const file = new File([blob], "scarscore-result.png", {
+      type: "image/png"
     });
 
-    canvas.toBlob(async (blob) => {
-      if (!blob) return;
-
-      const file = new File([blob], "afterlove-result.png", {
-        type: "image/png"
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: "ScarScore",
+        text: "I took ScarScore. This is my result.",
+        files: [file]
       });
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "scarscore-result.png";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  });
+};
 
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: "AfterLove",
-          text: `I scored ${score} on AfterLove.`,
-          files: [file]
-        });
-      } else {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "afterlove-result.png";
-        a.click();
-        URL.revokeObjectURL(url);
-      }
-    });
-  };
 
   const result = getConclusion(score);
 
