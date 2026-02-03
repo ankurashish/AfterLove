@@ -1,100 +1,10 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import { useRef } from "react";
-import html2canvas from "html2canvas";
+import { Suspense } from "react";
+import ResultClient from "./ResultClient";
 
 export default function ResultPage() {
-  const params = useSearchParams();
-  const score = Number(params.get("score"));
-  const resultRef = useRef(null);
-
-  if (isNaN(score)) return null;
-
-  const getConclusion = (score) => {
-    if (score >= 90)
-      return {
-        title: "🌒 Guarded / Untouched",
-        text: "You’ve lived cautiously. Your experiences are limited, but not invalid."
-      };
-    if (score >= 70)
-      return {
-        title: "🔥 Exploring & Learning",
-        text: "You’ve tasted connection, confusion, and growth."
-      };
-    if (score >= 40)
-      return {
-        title: "🩸 Scarred but Self-Aware",
-        text: "You’ve loved deeply, lost painfully, and learned honestly."
-      };
-    return {
-      title: "🖤 Deeply Lived, Deeply Changed",
-      text: "You’ve been through intimacy, loss, and transformation. You carry wisdom."
-    };
-  };
-
-  const shareScreenshot = async () => {
-  if (!resultRef.current) return;
-
-  const canvas = await html2canvas(resultRef.current, {
-    backgroundColor: "#0f0f0f",
-    scale: 2
-  });
-
-  canvas.toBlob(async (blob) => {
-    if (!blob) return;
-
-    // Try clipboard first (Chrome/Edge)
-    try {
-      const item = new ClipboardItem({ "image/png": blob });
-      await navigator.clipboard.write([item]);
-      alert("Screenshot copied! Paste it anywhere.");
-      return;
-    } catch (e) {
-      // fallback below
-    }
-
-    const file = new File([blob], "scarscore-result.png", {
-      type: "image/png"
-    });
-
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({
-        title: "ScarScore",
-        text: "I took ScarScore. This is my result.",
-        files: [file]
-      });
-    } else {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "scarscore-result.png";
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-  });
-};
-
-
-  const result = getConclusion(score);
-
   return (
-    <main className="container center">
-      {/* THIS is what gets screenshotted */}
-      <section ref={resultRef} className="result">
-        <h1>Your Score</h1>
-        <div className="score">{score}</div>
-        <h2>{result.title}</h2>
-        <p>{result.text}</p>
-      </section>
-
-      <button className="share" onClick={shareScreenshot}>
-        Share Screenshot
-      </button>
-
-      <p className="disclaimer">
-        This reflects experience — not worth.
-      </p>
-    </main>
+    <Suspense fallback={<div style={{ padding: 40 }}>Loading result…</div>}>
+      <ResultClient />
+    </Suspense>
   );
 }
